@@ -1,0 +1,766 @@
+{
+  "schema": 1,
+  "tool": "edge-ai-bench 0.1.0",
+  "label": "Apple M5 Max (Darwin 27.2)",
+  "created": "2026-11-17 17:10 UTC",
+  "device": {
+    "os": "Darwin",
+    "os_version": "27.2",
+    "machine": "arm64",
+    "python": "3.12.16",
+    "cpu_count": 18,
+    "cpu": "Apple M5 Max",
+    "model": "Mac17,6",
+    "memory_gb": 48.0,
+    "onnxruntime": "1.32.0",
+    "available_providers": [
+      "CoreMLExecutionProvider",
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "config": {
+    "warmup": 20,
+    "iters": 200,
+    "batch": 16,
+    "throughput_seconds": 3.0,
+    "threads": 0,
+    "evaluate": true,
+    "timeout_s": 900.0
+  },
+  "skipped_providers": {
+    "qnn": "QNNExecutionProvider not in this onnxruntime build. Install `onnxruntime-qnn` on a Snapdragon device (Windows on Snapdragon / supported Linux). Android/Termux CPU builds do not include QNN.",
+    "cuda": "CUDAExecutionProvider not in this onnxruntime build. Install `onnxruntime-gpu` on a machine with an NVIDIA GPU and CUDA runtime."
+  },
+  "results": [
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 294340,
+      "load_ms": 14.835499983746558,
+      "first_inference_ms": 0.34233403857797384,
+      "latency": {
+        "p50_ms": 0.11047898442484438,
+        "p90_ms": 0.12173690483905375,
+        "p99_ms": 0.1338783308165148,
+        "mean_ms": 0.10599605710012838,
+        "min_ms": 0.07862498750910163,
+        "max_ms": 0.15600002370774746,
+        "std_ms": 0.01594049051150172,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 39780.85706315945
+      },
+      "memory": {
+        "rss_before_mb": 29.5,
+        "rss_after_mb": 73.44,
+        "rss_delta_mb": 43.94,
+        "peak_rss_mb": 75.08
+      },
+      "quality": {
+        "accuracy": 0.9749303621169917,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "fp32",
+      "provider": "cpu",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 1,
+        "nodes_total": 24,
+        "nodes_on_ep": 24
+      },
+      "size_bytes": 294340,
+      "load_ms": 78.33999994909391,
+      "first_inference_ms": 0.8243750198744237,
+      "latency": {
+        "p50_ms": 0.10054148151539266,
+        "p90_ms": 0.1053792133461684,
+        "p99_ms": 0.1419016736326739,
+        "mean_ms": 0.10089560324558988,
+        "min_ms": 0.0873749959282577,
+        "max_ms": 0.15004200395196676,
+        "std_ms": 0.007241298557099291,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 42622.39515288432
+      },
+      "memory": {
+        "rss_before_mb": 29.72,
+        "rss_after_mb": 91.92,
+        "rss_delta_mb": 62.2,
+        "peak_rss_mb": 93.56
+      },
+      "quality": {
+        "accuracy": 0.9749303621169917,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "fp32",
+      "provider": "coreml",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 98529,
+      "load_ms": 16.10412501031533,
+      "first_inference_ms": 0.21841697162017226,
+      "latency": {
+        "p50_ms": 0.0784169533289969,
+        "p90_ms": 0.08149998029693961,
+        "p99_ms": 0.08746074163354918,
+        "mean_ms": 0.07090084836818278,
+        "min_ms": 0.053957977797836065,
+        "max_ms": 0.1140000531449914,
+        "std_ms": 0.01167631363145836,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 19842.244557228863
+      },
+      "memory": {
+        "rss_before_mb": 29.48,
+        "rss_after_mb": 67.53,
+        "rss_delta_mb": 38.05,
+        "peak_rss_mb": 69.22
+      },
+      "quality": {
+        "accuracy": 0.9777158774373259,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "int8",
+      "provider": "cpu",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 1,
+        "nodes_total": 65,
+        "nodes_on_ep": 1
+      },
+      "size_bytes": 98529,
+      "load_ms": 67.85875000059605,
+      "first_inference_ms": 0.9238750208169222,
+      "latency": {
+        "p50_ms": 0.08354196324944496,
+        "p90_ms": 0.08668371592648327,
+        "p99_ms": 0.11684979952406126,
+        "mean_ms": 0.08497276838170364,
+        "min_ms": 0.07841701153665781,
+        "max_ms": 0.23508298909291625,
+        "std_ms": 0.011830542184667605,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 18670.972056988114
+      },
+      "memory": {
+        "rss_before_mb": 29.72,
+        "rss_after_mb": 81.17,
+        "rss_delta_mb": 51.45,
+        "peak_rss_mb": 82.81
+      },
+      "quality": {
+        "accuracy": 0.9777158774373259,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "int8",
+      "provider": "coreml",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 97956,
+      "load_ms": 18.07716698385775,
+      "first_inference_ms": 0.37395802792161703,
+      "latency": {
+        "p50_ms": 0.158333481522277,
+        "p90_ms": 0.17471631872467697,
+        "p99_ms": 0.21969215769786377,
+        "mean_ms": 0.15512088517425582,
+        "min_ms": 0.12383400462567806,
+        "max_ms": 0.40012499084696174,
+        "std_ms": 0.026812387752374846,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 23811.756129744135
+      },
+      "memory": {
+        "rss_before_mb": 29.45,
+        "rss_after_mb": 70.55,
+        "rss_delta_mb": 41.09,
+        "peak_rss_mb": 72.47
+      },
+      "quality": {
+        "accuracy": 0.9749303621169917,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "w8a16",
+      "provider": "cpu",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 1,
+        "nodes_total": 65,
+        "nodes_on_ep": 1
+      },
+      "size_bytes": 97956,
+      "load_ms": 59.09104103920981,
+      "first_inference_ms": 1.0848749661818147,
+      "latency": {
+        "p50_ms": 0.17197898705489933,
+        "p90_ms": 0.19185899873264134,
+        "p99_ms": 0.19898627768270638,
+        "mean_ms": 0.17248102987650782,
+        "min_ms": 0.1485829707235098,
+        "max_ms": 0.3132910351268947,
+        "std_ms": 0.019665182435092386,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 22858.05426128989
+      },
+      "memory": {
+        "rss_before_mb": 29.55,
+        "rss_after_mb": 87.19,
+        "rss_delta_mb": 57.64,
+        "peak_rss_mb": 88.78
+      },
+      "quality": {
+        "accuracy": 0.9749303621169917,
+        "n": 359
+      },
+      "model": "digits-cnn",
+      "task": "vision",
+      "variant": "w8a16",
+      "provider": "coreml",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 769090,
+      "load_ms": 19.78383300593123,
+      "first_inference_ms": 0.4813750274479389,
+      "latency": {
+        "p50_ms": 0.29114598874002695,
+        "p90_ms": 0.3036660957150161,
+        "p99_ms": 0.3483559261076151,
+        "mean_ms": 0.28822121443226933,
+        "min_ms": 0.26120798429474235,
+        "max_ms": 0.40850002551451325,
+        "std_ms": 0.018452640544689935,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 8334.77085192455
+      },
+      "memory": {
+        "rss_before_mb": 29.55,
+        "rss_after_mb": 101.66,
+        "rss_delta_mb": 72.11,
+        "peak_rss_mb": 103.67
+      },
+      "quality": {
+        "accuracy": 0.973967684021544,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "fp32",
+      "provider": "cpu",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 1,
+        "nodes_total": 88,
+        "nodes_on_ep": 87
+      },
+      "size_bytes": 769090,
+      "load_ms": 248.01208300050348,
+      "first_inference_ms": 1.1045829742215574,
+      "latency": {
+        "p50_ms": 0.2266670053359121,
+        "p90_ms": 0.23796218447387218,
+        "p99_ms": 0.26972508057951927,
+        "mean_ms": 0.22874209214933217,
+        "min_ms": 0.21720799850299954,
+        "max_ms": 0.28541695792227983,
+        "std_ms": 0.0091170735197631,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 31527.560329267024
+      },
+      "memory": {
+        "rss_before_mb": 29.48,
+        "rss_after_mb": 110.33,
+        "rss_delta_mb": 80.84,
+        "peak_rss_mb": 111.91
+      },
+      "quality": {
+        "accuracy": 0.973967684021544,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "fp32",
+      "provider": "coreml",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 269397,
+      "load_ms": 22.802375024184585,
+      "first_inference_ms": 0.7525410037487745,
+      "latency": {
+        "p50_ms": 0.4364795167930424,
+        "p90_ms": 0.5100965325254947,
+        "p99_ms": 0.5322684301063418,
+        "mean_ms": 0.44299297558609396,
+        "min_ms": 0.38362503983080387,
+        "max_ms": 0.5563340382650495,
+        "std_ms": 0.04585534371609338,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 4514.345840096603
+      },
+      "memory": {
+        "rss_before_mb": 29.52,
+        "rss_after_mb": 104.95,
+        "rss_delta_mb": 75.44,
+        "peak_rss_mb": 106.66
+      },
+      "quality": {
+        "accuracy": 0.9434470377019749,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "int8",
+      "provider": "cpu",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 45,
+        "nodes_total": 308,
+        "nodes_on_ep": 59
+      },
+      "size_bytes": 269397,
+      "load_ms": 1207.3112919460982,
+      "first_inference_ms": 4.576459003146738,
+      "latency": {
+        "p50_ms": 1.8570829997770488,
+        "p90_ms": 2.2362838964909315,
+        "p99_ms": 2.587674132082611,
+        "mean_ms": 1.9539106343290769,
+        "min_ms": 1.7430000007152557,
+        "max_ms": 2.9783750069327652,
+        "std_ms": 0.19758016762951303,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 1621.2859107368301
+      },
+      "memory": {
+        "rss_before_mb": 29.45,
+        "rss_after_mb": 210.34,
+        "rss_delta_mb": 180.89,
+        "peak_rss_mb": 212.02
+      },
+      "quality": {
+        "accuracy": 0.9434470377019749,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "int8",
+      "provider": "coreml",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 307431,
+      "load_ms": 24.182291992474347,
+      "first_inference_ms": 0.828166026622057,
+      "latency": {
+        "p50_ms": 0.6970414833631366,
+        "p90_ms": 0.7812582596670836,
+        "p99_ms": 0.8188300702022387,
+        "mean_ms": 0.7125014567282051,
+        "min_ms": 0.6382080027833581,
+        "max_ms": 0.8408750290982425,
+        "std_ms": 0.05330664790729589,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 3460.794123133553
+      },
+      "memory": {
+        "rss_before_mb": 29.75,
+        "rss_after_mb": 113.22,
+        "rss_delta_mb": 83.47,
+        "peak_rss_mb": 114.81
+      },
+      "quality": {
+        "accuracy": 0.973967684021544,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "w8a16",
+      "provider": "cpu",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 45,
+        "nodes_total": 308,
+        "nodes_on_ep": 59
+      },
+      "size_bytes": 307431,
+      "load_ms": 855.4596250178292,
+      "first_inference_ms": 4.522875009570271,
+      "latency": {
+        "p50_ms": 1.8559375021141022,
+        "p90_ms": 2.145099703921005,
+        "p99_ms": 2.3872029891936104,
+        "mean_ms": 1.9219537355820648,
+        "min_ms": 1.7076670192182064,
+        "max_ms": 2.4170419783331454,
+        "std_ms": 0.16299958179776775,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 1602.8357588428948
+      },
+      "memory": {
+        "rss_before_mb": 29.73,
+        "rss_after_mb": 212.98,
+        "rss_delta_mb": 183.25,
+        "peak_rss_mb": 214.88
+      },
+      "quality": {
+        "accuracy": 0.973967684021544,
+        "n": 1114
+      },
+      "model": "sms-transformer",
+      "task": "text",
+      "variant": "w8a16",
+      "provider": "coreml",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 10181060,
+      "load_ms": 21.12074999604374,
+      "first_inference_ms": 1.4682500041089952,
+      "latency": {
+        "p50_ms": 1.0592080070637167,
+        "p90_ms": 1.122929120901972,
+        "p99_ms": 1.152261234819889,
+        "mean_ms": 1.0588459970313124,
+        "min_ms": 0.9545829962007701,
+        "max_ms": 1.1672080145217478,
+        "std_ms": 0.04960212171720232,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 1958.4248268616332
+      },
+      "memory": {
+        "rss_before_mb": 29.55,
+        "rss_after_mb": 187.28,
+        "rss_delta_mb": 157.73,
+        "peak_rss_mb": 189.09
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "fp32",
+      "provider": "cpu",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 19,
+        "nodes_total": 60,
+        "nodes_on_ep": 38
+      },
+      "size_bytes": 10181060,
+      "load_ms": 1002.4629170075059,
+      "first_inference_ms": 7.281041005626321,
+      "latency": {
+        "p50_ms": 2.992729510879144,
+        "p90_ms": 3.030450321966782,
+        "p99_ms": 3.0608418415067717,
+        "mean_ms": 2.9919081446132623,
+        "min_ms": 2.8697079978883266,
+        "max_ms": 3.0713750165887177,
+        "std_ms": 0.0326169365402062,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 627.6814588037614
+      },
+      "memory": {
+        "rss_before_mb": 29.5,
+        "rss_after_mb": 437.7,
+        "rss_delta_mb": 408.2,
+        "peak_rss_mb": 439.5
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "fp32",
+      "provider": "coreml",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 2763675,
+      "load_ms": 27.72399998502806,
+      "first_inference_ms": 0.9276670170947909,
+      "latency": {
+        "p50_ms": 0.7472285360563546,
+        "p90_ms": 0.8937624981626868,
+        "p99_ms": 0.9197164722718298,
+        "mean_ms": 0.7729949912754819,
+        "min_ms": 0.6726249703206122,
+        "max_ms": 0.9209999698214233,
+        "std_ms": 0.07633330167590939,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 2053.321044496263
+      },
+      "memory": {
+        "rss_before_mb": 29.73,
+        "rss_after_mb": 135.23,
+        "rss_delta_mb": 105.5,
+        "peak_rss_mb": 137.38
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "int8",
+      "provider": "cpu",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 72,
+        "nodes_total": 525,
+        "nodes_on_ep": 72
+      },
+      "size_bytes": 2763675,
+      "load_ms": 1326.1550000170246,
+      "first_inference_ms": 10.588667006231844,
+      "latency": {
+        "p50_ms": 4.905729030724615,
+        "p90_ms": 5.014870502054691,
+        "p99_ms": 5.431606780621222,
+        "mean_ms": 4.922725838550832,
+        "min_ms": 4.723125020973384,
+        "max_ms": 5.571500048972666,
+        "std_ms": 0.10771013487520918,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 351.80789823031705
+      },
+      "memory": {
+        "rss_before_mb": 29.78,
+        "rss_after_mb": 551.77,
+        "rss_delta_mb": 521.98,
+        "peak_rss_mb": 553.77
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "int8",
+      "provider": "coreml",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": null,
+      "size_bytes": 2769216,
+      "load_ms": 29.410791001282632,
+      "first_inference_ms": 2.9493329930119216,
+      "latency": {
+        "p50_ms": 2.0746460068039596,
+        "p90_ms": 2.210720779839903,
+        "p99_ms": 2.2894824045943096,
+        "mean_ms": 2.0867008750792593,
+        "min_ms": 1.9179590162821114,
+        "max_ms": 2.33708304585889,
+        "std_ms": 0.09185582207653596,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 1050.438444214539
+      },
+      "memory": {
+        "rss_before_mb": 29.44,
+        "rss_after_mb": 199.33,
+        "rss_delta_mb": 169.89,
+        "peak_rss_mb": 201.17
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "w8a16",
+      "provider": "cpu",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    },
+    {
+      "status": "ok",
+      "providers_in_session": [
+        "CoreMLExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "ep_coverage": {
+        "partitions": 72,
+        "nodes_total": 525,
+        "nodes_on_ep": 72
+      },
+      "size_bytes": 2769216,
+      "load_ms": 1350.3292499808595,
+      "first_inference_ms": 11.47816696902737,
+      "latency": {
+        "p50_ms": 5.751166492700577,
+        "p90_ms": 6.213408260373399,
+        "p99_ms": 6.73995706893038,
+        "mean_ms": 5.813472094014287,
+        "min_ms": 5.3642080165445805,
+        "max_ms": 6.9850829895585775,
+        "std_ms": 0.2831355607546288,
+        "n": 200
+      },
+      "throughput": {
+        "batch": 16,
+        "samples_per_s": 388.08728738354046
+      },
+      "memory": {
+        "rss_before_mb": 29.5,
+        "rss_after_mb": 561.83,
+        "rss_delta_mb": 532.33,
+        "peak_rss_mb": 563.75
+      },
+      "quality": null,
+      "model": "mobilenetv3-small",
+      "task": "vision",
+      "variant": "w8a16",
+      "provider": "coreml",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only"
+    }
+  ]
+}
