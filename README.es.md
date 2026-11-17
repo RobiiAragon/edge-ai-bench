@@ -98,8 +98,8 @@ edge-ai-bench build-models
 corriente. **Software:** Python 3.12.16, onnxruntime 1.32.0 (EPs CPU + CoreML;
 `MLProgram`, `MLComputeUnits=ALL`). **Parámetros:** 20 iteraciones de calentamiento y 200
 medidas con batch 1, ventana de throughput de 3 s con batch 16, shapes estáticos. Datos
-crudos: [`results/mac-apple-m5-max.json`](results/mac-apple-m5-max.json). Reporte:
-[`docs/report.html`](docs/report.html).
+crudos: [`results/mac-apple-m5-max.json`](results/mac-apple-m5-max.json). **Reporte en vivo:**
+[robiiaragon.github.io/edge-ai-bench/report.html](https://robiiaragon.github.io/edge-ai-bench/report.html).
 
 | Modelo | Variante | EP | p50 (ms) | p90 (ms) | p99 (ms) | Throughput (muestras/s, b=16) | Cobertura EP | RSS pico (MB) | Tamaño (KB) | Exactitud |
 |---|---|---|---:|---:|---:|---:|---|---:|---:|---:|

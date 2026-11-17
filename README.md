@@ -113,8 +113,8 @@ the test set never touches quantization.
 **Software:** Python 3.12.16, onnxruntime 1.32.0 (CPU + CoreML EPs; CoreML options
 `MLProgram`, `MLComputeUnits=ALL`). **Settings:** 20 warm-up and 200 timed iterations at
 batch 1, 3 s throughput window at batch 16, static shapes. Raw data:
-[`results/mac-apple-m5-max.json`](results/mac-apple-m5-max.json). Rendered report:
-[`docs/report.html`](docs/report.html).
+[`results/mac-apple-m5-max.json`](results/mac-apple-m5-max.json). **Live report:**
+[robiiaragon.github.io/edge-ai-bench/report.html](https://robiiaragon.github.io/edge-ai-bench/report.html).
 
 | Model | Variant | EP | p50 (ms) | p90 (ms) | p99 (ms) | Throughput (samples/s, b=16) | EP coverage | Peak RSS (MB) | Size (KB) | Accuracy |
 |---|---|---|---:|---:|---:|---:|---|---:|---:|---:|
