@@ -1,0 +1,65 @@
+{
+  "models": [
+    {
+      "name": "digits-cnn",
+      "task": "vision",
+      "description": "MobileNet-style depthwise-separable CNN, 1x32x32 digits, 10 classes",
+      "input_name": "image",
+      "input_dtype": "float32",
+      "input_shape": [
+        1,
+        32,
+        32
+      ],
+      "files": {
+        "fp32": "digits_cnn.fp32.onnx",
+        "int8": "digits_cnn.int8.onnx",
+        "w8a16": "digits_cnn.w8a16.onnx"
+      },
+      "eval_data": "data/digits_test.npz",
+      "calib_data": "data/digits_calib.npz",
+      "source": "UCI Optical Recognition of Handwritten Digits (CC BY 4.0) via scikit-learn",
+      "extra": {}
+    },
+    {
+      "name": "sms-transformer",
+      "task": "text",
+      "description": "2-layer byte-level transformer encoder (d=96), SMS spam vs ham",
+      "input_name": "input_ids",
+      "input_dtype": "int64",
+      "input_shape": [
+        128
+      ],
+      "files": {
+        "fp32": "sms_transformer.fp32.onnx",
+        "int8": "sms_transformer.int8.onnx",
+        "w8a16": "sms_transformer.w8a16.onnx"
+      },
+      "eval_data": "data/sms_test.npz",
+      "calib_data": "data/sms_calib.npz",
+      "source": "UCI SMS Spam Collection (CC BY 4.0)",
+      "extra": {}
+    },
+    {
+      "name": "mobilenetv3-small",
+      "task": "vision",
+      "description": "torchvision MobileNetV3-Small (ImageNet), 3x224x224 - latency/size only",
+      "input_name": "image",
+      "input_dtype": "float32",
+      "input_shape": [
+        3,
+        224,
+        224
+      ],
+      "files": {
+        "fp32": "mobilenetv3s.fp32.onnx",
+        "int8": "mobilenetv3s.int8.onnx",
+        "w8a16": "mobilenetv3s.w8a16.onnx"
+      },
+      "eval_data": null,
+      "calib_data": null,
+      "source": "torchvision MobileNet_V3_Small_Weights.IMAGENET1K_V1 (BSD-3-Clause)",
+      "extra": {}
+    }
+  ]
+}
