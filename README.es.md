@@ -79,9 +79,10 @@ edge-ai-bench build-models
 | `providers` | EPs disponibles / saltados y la razón |
 | `info` | Descripción del dispositivo (CPU/SoC, SO, RAM, versión de ORT), sin hostname ni seriales |
 | `build-models` | Entrena, exporta y cuantiza los modelos incluidos (extra `[train]`) |
-| `quantize` | Cuantiza a QDQ cualquier modelo ONNX (`--scheme qnn\|generic`) |
+| `quantize` | Cuantiza a QDQ cualquier modelo ONNX (`--scheme qnn\|generic`, `--activation-bits 8\|16` para W8A8 o W8A16) |
 | `run` | Benchmark (`--providers cpu,coreml,qnn,cuda,nnapi,xnnpack`, `--variants`, `--iters`) |
 | `report` | Junta archivos JSON de resultados en un reporte HTML |
+| `table` | Imprime los JSON de resultados como tabla Markdown (`--baseline cpu` agrega una columna de speed-up del p50, `-o` escribe a archivo) |
 | `aihub setup\|devices\|profile` | Perfilado en dispositivos hospedados de Qualcomm AI Hub |
 
 ## Modelos y datos
@@ -124,6 +125,8 @@ crudos: [`results/mac-apple-m5-max.json`](results/mac-apple-m5-max.json). **Repo
 
 
 El RSS pico es de todo el proceso, así que incluye ~60 MB de base de Python, NumPy y ORT.
+Esta tabla sale directo del JSON, no se escribió a mano:
+`edge-ai-bench table results/mac-apple-m5-max.json` (con `--baseline cpu` agrega el speed-up).
 
 ### Lo que dicen los números
 
@@ -180,11 +183,14 @@ en esta máquina. La integración tiene pruebas unitarias contra la API verifica
 ```bash
 pip install -e ".[dev]"
 ruff check . && ruff format --check . && pytest -q
-scripts/mac_check.sh --full
+scripts/mac_check.sh            # lint + pruebas + benchmark rápido (se escribe en .cache/, no en results/)
+scripts/mac_check.sh --full     # lo mismo con la configuración documentada; sobrescribe results/mac-*.json
 ```
 
 El CI corre lint, pruebas y un benchmark corto en `ubuntu-latest` y `macos-latest`
-(Python 3.11 y 3.12), y sube el reporte HTML como artifact.
+(Python 3.11, 3.12 y 3.13), sube el reporte HTML como artifact y escribe los resultados del
+smoke test como tabla Markdown en el resumen del job. Los runners de CI son VMs compartidas:
+sus números solo prueban que el pipeline funciona, no son resultados de benchmark.
 
 ## Roadmap
 
