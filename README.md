@@ -75,6 +75,8 @@ Quantize your own model:
 
 ```bash
 edge-ai-bench quantize my.onnx --calib calib.npz --input-name input --out my.int8.onnx
+edge-ai-bench quantize my.onnx --calib calib.npz --input-name input --out my.w8a16.onnx \
+    --activation-bits 16            # W8A16: uint16 activations
 ```
 
 | Command | Purpose |
@@ -82,9 +84,10 @@ edge-ai-bench quantize my.onnx --calib calib.npz --input-name input --out my.int
 | `providers` | List usable / skipped execution providers and why |
 | `info` | Device description (CPU/SoC, OS, RAM, ORT version), with no hostnames or serials |
 | `build-models` | Train, export and quantize the bundled models (`[train]` extra) |
-| `quantize` | QDQ-quantize any ONNX model (`--scheme qnn\|generic`) |
+| `quantize` | QDQ-quantize any ONNX model (`--scheme qnn\|generic`, `--activation-bits 8\|16` for W8A8 or W8A16) |
 | `run` | Benchmark (`--providers cpu,coreml,qnn,cuda,nnapi,xnnpack`, `--variants`, `--iters`, `--batch`) |
 | `report` | Merge result JSON files into one HTML report |
+| `table` | Print result JSON files as a Markdown table (`--baseline cpu` adds a p50 speed-up column, `-o` writes a file) |
 | `aihub setup\|devices\|profile` | Qualcomm AI Hub hosted-device profiling |
 
 ### Hardware-specific installs
@@ -138,6 +141,8 @@ batch 1, 3 s throughput window at batch 16, static shapes. Raw data:
 | mobilenetv3-small | W8A16 | coreml | 5.751 | 6.213 | 6.740 | 388 | 72/525 nodes, 72 part. | 564 | 2,704 | n/a |
 
 Peak RSS is for the whole worker process, so it includes about 60 MB of Python, NumPy and ORT baseline.
+This table is generated from the raw JSON, not typed by hand:
+`edge-ai-bench table results/mac-apple-m5-max.json` (add `--baseline cpu` for a speed-up column).
 
 ### What the numbers say
 
@@ -195,11 +200,14 @@ unit-tested against the verified `qai-hub` 0.58 API.
 ```bash
 pip install -e ".[dev]"
 ruff check . && ruff format --check . && pytest -q
-scripts/mac_check.sh --full     # lint + tests + full benchmark + report on macOS
+scripts/mac_check.sh            # lint + tests + quick benchmark (written to .cache/, not results/)
+scripts/mac_check.sh --full     # same with the documented settings; overwrites results/mac-*.json
 ```
 
 CI runs lint, the test suite and a smoke benchmark on `ubuntu-latest` and `macos-latest`
-(Python 3.11 and 3.12), and uploads the HTML report as an artifact.
+(Python 3.11, 3.12 and 3.13), uploads the HTML report as an artifact and writes the smoke
+results as a Markdown table into the job summary. CI runners are shared VMs, so their numbers
+only show that the pipeline works; they are not benchmark results.
 
 ```
 src/edge_ai_bench/
@@ -209,6 +217,7 @@ src/edge_ai_bench/
   quantize.py   QDQ static quantization (QNN config, W8A8 / W8A16)
   build.py      model definitions, training, ONNX export
   report.py     self-contained multi-device HTML report
+  table.py      Markdown table from result JSON (README / PR / model-card tables)
   aihub.py      Qualcomm AI Hub compile + profile
   device.py     privacy-friendly device description (incl. Android getprop)
 ```

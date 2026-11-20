@@ -55,7 +55,9 @@ def cmd_quantize(args: argparse.Namespace) -> int:
     from .quantize import quantize_qdq
 
     calib = np.load(args.calib)["x"]
-    out = quantize_qdq(args.model, args.out, args.input_name, calib, args.scheme)
+    out = quantize_qdq(
+        args.model, args.out, args.input_name, calib, args.scheme, args.activation_bits
+    )
     print(f"wrote {out} ({out.stat().st_size / 1024:,.0f} KB)")
     return 0
 
@@ -130,6 +132,23 @@ def cmd_report(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_table(args: argparse.Namespace) -> int:
+    from .report import load_results
+    from .table import markdown
+
+    paths = args.results or sorted(Path("results").glob("*.json"))
+    if not paths:
+        print("no result files given and none found in results/", file=sys.stderr)
+        return 2
+    text = markdown(load_results(list(paths)), baseline=args.baseline or None)
+    if args.out:
+        args.out.write_text(text, encoding="utf-8")
+        print(f"wrote {args.out}")
+    else:
+        print(text, end="")
+    return 0
+
+
 def cmd_aihub(args: argparse.Namespace) -> int:
     from . import aihub
 
@@ -199,6 +218,13 @@ def build_parser() -> argparse.ArgumentParser:
     q.add_argument("--input-name", required=True)
     q.add_argument("--out", type=Path, required=True)
     q.add_argument("--scheme", choices=["qnn", "generic"], default="qnn")
+    q.add_argument(
+        "--activation-bits",
+        type=int,
+        choices=[8, 16],
+        default=8,
+        help="8 = W8A8 (INT8), 16 = W8A16 (uint16 activations)",
+    )
     q.set_defaults(func=cmd_quantize)
 
     r = sub.add_parser("run", help="benchmark models across execution providers")
@@ -220,6 +246,12 @@ def build_parser() -> argparse.ArgumentParser:
     rep.add_argument("results", nargs="*", type=Path)
     rep.add_argument("-o", "--out", type=Path, default=Path("report.html"))
     rep.set_defaults(func=cmd_report)
+
+    t = sub.add_parser("table", help="print result JSON files as a Markdown table")
+    t.add_argument("results", nargs="*", type=Path)
+    t.add_argument("--baseline", default="", help="EP alias for a p50 speed-up column, e.g. cpu")
+    t.add_argument("-o", "--out", type=Path, help="write to a file instead of stdout")
+    t.set_defaults(func=cmd_table)
 
     a = sub.add_parser("aihub", help="profile on hosted Snapdragon devices (Qualcomm AI Hub)")
     a.add_argument("action", choices=["setup", "devices", "profile"], nargs="?", default="setup")

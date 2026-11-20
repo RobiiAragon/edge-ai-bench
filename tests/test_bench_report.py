@@ -107,3 +107,60 @@ def test_w8a16_variant_runs_on_cpu(tiny_models) -> None:
         )
         sess = ort.InferenceSession(str(out), providers=["CPUExecutionProvider"])
         assert sess.run(None, {"x": calib[:4]})[0].shape == (4, 2)
+
+
+def test_ok_result_survives_teardown_crash() -> None:
+    from edge_ai_bench.bench import _apply_exit_code
+
+    ok = {"status": "ok", "latency": {"p50_ms": 1.0}}
+    kept = _apply_exit_code(ok, -11)
+    assert kept["status"] == "ok" and kept["warning"] == "worker exit code -11"
+    assert _apply_exit_code(ok, 0) is ok
+    crashed = _apply_exit_code({}, 1)
+    assert crashed["status"] == "error" and "exit code 1" in crashed["error"]
+    err = {"status": "error", "error": "boom"}
+    assert _apply_exit_code(err, 1) == err
+
+
+def test_table_renders_committed_results(capsys) -> None:
+    from pathlib import Path
+
+    repo = Path(__file__).resolve().parents[1]
+    path = repo / "results" / "mac-apple-m5-max.json"
+    assert main(["table", str(path), "--baseline", "cpu"]) == 0
+    text = capsys.readouterr().out
+    lines = text.strip().splitlines()
+    data = json.loads(path.read_text())
+    assert len(lines) == 2 + sum(r["status"] == "ok" for r in data["results"])
+    assert "| Device |" not in lines[0]  # single device -> no device column
+    assert "vs cpu" in lines[0]
+    first = data["results"][0]
+    assert f"{first['latency']['p50_ms']:.3f}" in lines[2]
+    assert "1.00x" in lines[2]  # cpu row is its own baseline
+
+
+def test_table_multi_device_and_file_output(tmp_path) -> None:
+    from edge_ai_bench.table import markdown
+
+    rec = {
+        "status": "ok",
+        "model": "m",
+        "variant": "int8",
+        "provider": "qnn",
+        "latency": {"p50_ms": 0.5, "p90_ms": 0.6, "p99_ms": 0.7},
+        "size_bytes": 2048,
+        "ep_coverage": {"partitions": 1, "nodes_total": 10, "nodes_on_ep": 10},
+    }
+    base = {**rec, "provider": "cpu", "latency": {"p50_ms": 1.0, "p90_ms": 1.1, "p99_ms": 1.2}}
+    err = {"status": "error", "model": "m", "variant": "fp32", "provider": "qnn"}
+    runs = [{"label": "A", "results": [base, rec, err]}, {"label": "B", "results": [rec]}]
+    text = markdown(runs, baseline="cpu")
+    assert "| Device |" in text.splitlines()[0]
+    assert "2.00x" in text  # qnn int8 vs cpu int8 on device A
+    assert "10/10 nodes, 1 part." in text and "n/a" in text
+    assert len(text.strip().splitlines()) == 2 + 3  # the error row is left out
+    src = tmp_path / "a.json"
+    src.write_text(json.dumps(runs[0]))
+    out = tmp_path / "t.md"
+    assert main(["table", str(src), "-o", str(out)]) == 0
+    assert out.read_text().startswith("| Model |")
