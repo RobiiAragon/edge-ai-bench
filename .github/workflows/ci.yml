@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python: ["3.11", "3.12"]
+        python: ["3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +32,7 @@ jobs:
           edge-ai-bench providers
           edge-ai-bench run --providers cpu,coreml --iters 20 --warmup 2 --seconds 0.5 --out ci.json
           edge-ai-bench report ci.json -o ci-report.html
+          edge-ai-bench table ci.json --baseline cpu >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.os }}-py${{ matrix.python }}

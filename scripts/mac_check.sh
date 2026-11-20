@@ -26,13 +26,23 @@ pytest -q
 echo "==> execution providers"
 edge-ai-bench providers
 
+# Quick runs go to .cache/ so they never overwrite the committed results/ files;
+# only --full (the documented settings) writes into results/.
 ITERS=50; SECS=1
-if [[ "${1:-}" == "--full" ]]; then ITERS=200; SECS=3; fi
-OUT="results/mac-$(sysctl -n machdep.cpu.brand_string | tr ' ' '-' | tr '[:upper:]' '[:lower:]').json"
+OUT=".cache/mac-quick.json"
+if [[ "${1:-}" == "--full" ]]; then
+  ITERS=200; SECS=3
+  OUT="results/mac-$(sysctl -n machdep.cpu.brand_string | tr ' ' '-' | tr '[:upper:]' '[:lower:]').json"
+fi
 echo "==> benchmark (cpu, coreml, qnn/cuda are skipped if absent) -> $OUT"
 edge-ai-bench run --providers cpu,coreml,qnn,cuda --iters "$ITERS" --seconds "$SECS" --out "$OUT"
 
 echo "==> report"
-edge-ai-bench report results/*.json -o report.html
+if [[ "${1:-}" == "--full" ]]; then
+  edge-ai-bench report results/*.json -o report.html
+else
+  edge-ai-bench report "$OUT" -o report.html
+fi
+edge-ai-bench table "$OUT" --baseline cpu
 edge-ai-bench aihub setup | head -3
 echo "OK - open report.html"
