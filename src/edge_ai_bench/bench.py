@@ -145,6 +145,20 @@ def _worker(
     conn.close()
 
 
+def _apply_exit_code(rec: dict[str, Any], exitcode: int | None) -> dict[str, Any]:
+    """Keep a complete result even if the worker dies on teardown (some EPs crash on exit).
+
+    A non-zero exit code only turns into an error when the worker sent no result at all.
+    """
+    if exitcode in (0, None):
+        return rec
+    if rec.get("status") == "ok":
+        return {**rec, "warning": f"worker exit code {exitcode}"}
+    if "error" not in rec:
+        return {"status": "error", "error": f"worker crashed (exit code {exitcode})"}
+    return rec
+
+
 def run_isolated(
     spec: ModelSpec, root: Path, variant: str, choice: ProviderChoice, cfg: BenchConfig
 ) -> dict[str, Any]:
@@ -165,10 +179,7 @@ def run_isolated(
         proc.kill()
         rec = {"status": "error", "error": f"timeout after {cfg.timeout_s:.0f}s"}
     proc.join(10)
-    if proc.exitcode not in (0, None) and rec.get("status") == "ok":
-        rec["warning"] = f"worker exit code {proc.exitcode}"
-    if proc.exitcode not in (0, None) and "error" not in rec:
-        rec = {"status": "error", "error": f"worker crashed (exit code {proc.exitcode})"}
+    rec = _apply_exit_code(rec, proc.exitcode)
     rec.update(
         {"model": spec.name, "task": spec.task, "variant": variant, "provider": choice.alias}
     )
